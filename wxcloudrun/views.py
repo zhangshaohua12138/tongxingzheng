@@ -17,7 +17,7 @@ def get_has(m):
     return p.hexdigest()
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/app/login', methods=['POST'])
 def login():
     """
     登录接口
@@ -33,7 +33,7 @@ def login():
     return make_succ_response(-1, "用户未注册！")
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/app/registerUser', methods=['POST'])
 def register():
     """
     注册接口
