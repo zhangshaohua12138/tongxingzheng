@@ -3,62 +3,75 @@ import logging
 from sqlalchemy.exc import OperationalError
 
 from wxcloudrun import db
-from wxcloudrun.model import Counters
+from wxcloudrun.model import UserInfo
 
 # 初始化日志
 logger = logging.getLogger('log')
 
 
-def query_counterbyid(id):
+def query_userinfobyid(id):
     """
-    根据ID查询Counter实体
-    :param id: Counter的ID
-    :return: Counter实体
+    根据ID查询UserInfo实体
+    :param id: UserInfo的ID
+    :return: UserInfo实体
     """
     try:
-        return Counters.query.filter(Counters.id == id).first()
+        return UserInfo.query.filter(UserInfo.id == id).first()
     except OperationalError as e:
-        logger.info("query_counterbyid errorMsg= {} ".format(e))
+        logger.info("query_userinfobyid errorMsg= {} ".format(e))
         return None
 
 
-def delete_counterbyid(id):
+def query_userinfobyphonenumber(phonenumber):
     """
-    根据ID删除Counter实体
-    :param id: Counter的ID
+    根据phonenumber查询UserInfo实体
+    :param phonenumber: UserInfo的phonenumber
+    :return: UserInfo实体
     """
     try:
-        counter = Counters.query.get(id)
-        if counter is None:
+        return UserInfo.query.filter(UserInfo.phonenumber == phonenumber).first()
+    except OperationalError as e:
+        logger.info("query_userinfobyid errorMsg= {} ".format(e))
+        return None
+
+
+def delete_userinfobyid(id):
+    """
+    根据ID删除userinfo实体
+    :param id: userinfo的ID
+    """
+    try:
+        userinfo = UserInfo.query.get(id)
+        if userinfo is None:
             return
-        db.session.delete(counter)
+        db.session.delete(userinfo)
         db.session.commit()
     except OperationalError as e:
-        logger.info("delete_counterbyid errorMsg= {} ".format(e))
+        logger.info("delete_userinfobyid errorMsg= {} ".format(e))
 
 
-def insert_counter(counter):
+def insert_userinfo(userinfo):
     """
-    插入一个Counter实体
-    :param counter: Counters实体
+    插入一个userinfo实体
+    :param userinfo: UserInfo实体
     """
     try:
-        db.session.add(counter)
+        db.session.add(userinfo)
         db.session.commit()
     except OperationalError as e:
-        logger.info("insert_counter errorMsg= {} ".format(e))
+        logger.info("insert_userinfo errorMsg= {} ".format(e))
 
 
-def update_counterbyid(counter):
+def update_userinfobyid(userinfo):
     """
-    根据ID更新counter的值
-    :param counter实体
+    根据ID更新userinfo的值
+    :param userinfo实体
     """
     try:
-        counter = query_counterbyid(counter.id)
-        if counter is None:
+        userinfo = query_userinfobyid(userinfo.id)
+        if userinfo is None:
             return
         db.session.flush()
         db.session.commit()
     except OperationalError as e:
-        logger.info("update_counterbyid errorMsg= {} ".format(e))
+        logger.info("update_userinfobyid errorMsg= {} ".format(e))
