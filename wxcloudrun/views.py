@@ -1,6 +1,5 @@
 from flask import render_template, request
 from run import app
-from wxcloudrun import db
 from wxcloudrun.dao import insert_userinfo, query_userinfobyphonenumber
 from wxcloudrun.model import UserInfo
 from wxcloudrun.response import make_succ_response
