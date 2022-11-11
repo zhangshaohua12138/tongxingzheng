@@ -8,6 +8,14 @@ pymysql.install_as_MySQLdb()
 
 # 初始化web应用
 app = Flask(__name__, instance_relative_config=True)
+
+
+def after_request(resp):
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
+app.after_request(after_request)
 app.config['DEBUG'] = config.DEBUG
 
 # 设定数据库链接
