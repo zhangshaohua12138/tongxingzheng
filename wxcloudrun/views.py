@@ -74,4 +74,4 @@ def resetPassword():
     userinfo = query_userinfobyphonenumber(phonenumber)
     userinfo.password = get_has(password)
     update_userinfobyid(userinfo)
-    return "1"
+    return make_succ_response(1, "修改成功！")
