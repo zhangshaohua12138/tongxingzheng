@@ -12,3 +12,4 @@ class UserInfo(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     phonenumber = db.Column(db.VARCHAR(11), nullable=False)
     password = db.Column(db.VARCHAR(255), nullable=False)
+    userid = db.Column(db.VARCHAR(255))

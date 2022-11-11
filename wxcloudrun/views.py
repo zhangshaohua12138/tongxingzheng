@@ -1,6 +1,6 @@
 from flask import render_template, request
 from run import app
-from wxcloudrun.dao import insert_userinfo, query_userinfobyphonenumber
+from wxcloudrun.dao import insert_userinfo, query_userinfobyphonenumber, update_userinfobyid, query_userinfobyuserid
 from wxcloudrun.model import UserInfo
 from wxcloudrun.response import make_succ_response
 
@@ -24,7 +24,12 @@ def login():
     :return: 返回登录状态 1登陆成功 -1用户未注册 0密码错误
     """
     phonenumber = request.values.get('phonenumber')
-    userinfo = query_userinfobyphonenumber(phonenumber)
+    if len(phonenumber) == 11:
+        print('shoujihao')
+        userinfo = query_userinfobyphonenumber(phonenumber)
+    else:
+        userinfo = query_userinfobyuserid(phonenumber)
+
     if userinfo:
         if get_has(request.values.get('password')) == userinfo.password:
             return make_succ_response(1, "登陆成功！")
@@ -57,3 +62,16 @@ def forget():
     if query_userinfobyphonenumber(phonenumber):
         return make_succ_response(1, "查询成功！")
     return make_succ_response(0, "该用户不存在！")
+
+@app.route('/app/resetPassword', methods=['POST'])
+def resetPassword():
+    """
+    重置密码
+    :return: 返回查询状态， 1修改成功 0修改失败
+    """
+    phonenumber = request.values.get('phonenumber')
+    password = request.values.get('password')
+    userinfo = query_userinfobyphonenumber(phonenumber)
+    userinfo.password = get_has(password)
+    update_userinfobyid(userinfo)
+    return "1"

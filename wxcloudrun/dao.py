@@ -34,6 +34,17 @@ def query_userinfobyphonenumber(phonenumber):
         logger.info("query_userinfobyid errorMsg= {} ".format(e))
         return None
 
+def query_userinfobyuserid(userid):
+    """
+    根据userid查询UserInfo实体
+    :param userid: UserInfo的userid
+    :return: UserInfo实体
+    """
+    try:
+        return UserInfo.query.filter(UserInfo.userid == userid).first()
+    except OperationalError as e:
+        logger.info("query_userinfobyid errorMsg= {} ".format(e))
+        return None
 
 def delete_userinfobyid(id):
     """
@@ -68,7 +79,7 @@ def update_userinfobyid(userinfo):
     :param userinfo实体
     """
     try:
-        userinfo = query_userinfobyid(userinfo.id)
+        # userinfo = query_userinfobyid(userinfo.id)
         if userinfo is None:
             return
         db.session.flush()
