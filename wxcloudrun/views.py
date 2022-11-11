@@ -54,6 +54,6 @@ def forget():
     :return: 返回查询状态， 1存在用户 0该用户不存在
     """
     phonenumber = request.values.get('phonenumber')
-    if not query_userinfobyphonenumber(phonenumber):
+    if query_userinfobyphonenumber(phonenumber):
         return make_succ_response(1, "查询成功！")
     return make_succ_response(0, "该用户不存在！")
