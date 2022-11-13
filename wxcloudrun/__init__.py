@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_httpauth import HTTPBasicAuth
+from flask_cors import CORS
 import pymysql
 import config
 
@@ -8,6 +10,8 @@ pymysql.install_as_MySQLdb()
 
 # 初始化web应用
 app = Flask(__name__, instance_relative_config=True)
+CORS(app, supports_credentials=True)
+auth = HTTPBasicAuth()
 
 
 def after_request(resp):
